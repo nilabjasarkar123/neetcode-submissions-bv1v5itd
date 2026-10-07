@@ -1,0 +1,24 @@
+class Solution {
+    int[][] dp ;
+    int findPath(int[][] grid, int i, int j) {
+        int m = grid.length, 
+            n = grid[0].length;
+        if(i >= m || i < 0 || j >= n || j < 0 ) return 0;
+        if(grid[i][j] == 1) return 0;
+        if(i == m-1 && j == n-1) {
+            return 1;
+        }
+        if(dp[i][j] != -1) return dp[i][j];
+        int right = findPath(grid, i, j+1); // right
+        int down  = findPath(grid, i+1, j); // down
+        
+        return dp[i][j] = right + down;
+    }
+    public int uniquePathsWithObstacles(int[][] obstacleGrid) {
+        int m = obstacleGrid.length, 
+            n = obstacleGrid[0].length;
+        dp = new int[m][n];
+        for(int[] row : dp) Arrays.fill(row, -1);
+        return findPath(obstacleGrid, 0, 0);
+    }
+}
